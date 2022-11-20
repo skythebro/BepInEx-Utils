@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Unity.Collections;
-using Unity.Entities;
+
 using ProjectM;
 
-namespace Logger;
+using Unity.Collections;
+using Unity.Entities;
+
+using Utils.Logger;
+
+namespace Utils.VRising.Logger;
 
 public static class PrettyLog {
     // NativeArray logs

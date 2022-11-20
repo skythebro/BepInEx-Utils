@@ -1,4 +1,4 @@
-namespace Entities;
+namespace Utils.VRising.Entities;
 
 public static class World {
     private static Unity.Entities.World _serverWorld;

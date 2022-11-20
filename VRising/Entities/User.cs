@@ -1,7 +1,7 @@
 using Unity.Entities;
 using Unity.Collections;
 
-namespace Entities;
+namespace Utils.VRising.Entities;
 
 public static class User {
     public static NativeArray<Entity> Get(EntityManager em) {

@@ -1,7 +1,9 @@
 using System.Reflection;
+
 using BepInEx.Configuration;
 
-namespace Settings;
+
+namespace Utils.Settings;
 
 public class Debug {
     private static string debugSection = "🪲Debug";

@@ -1,8 +1,11 @@
 using System;
 using System.IO;
+
 using BepInEx.Configuration;
 
-namespace Settings;
+using Utils.Settings;
+
+namespace Utils.Settings;
 
 public class Config {
     public static string PluginGUID;

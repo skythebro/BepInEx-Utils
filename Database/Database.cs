@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Text.Json;
 
-using Logger;
+using Utils.Logger;
 
-namespace Database;
+namespace Utils.Database;
 
 public static class DB {
     internal static JsonSerializerOptions JSONOptions = new() {
@@ -58,12 +58,12 @@ public static class DB {
     }
 
     internal static void save<T>(string fileName, T data, JsonSerializerOptions jsonOptions) {
-        var filePath = $"{Settings.Config.PluginFolderPath}\\{fileName}.json";
+        var filePath = $"{Utils.Settings.Config.PluginFolderPath}\\{fileName}.json";
         File.WriteAllText(filePath, JsonSerializer.Serialize(data, jsonOptions));
     }
 
     internal static void load<T>(string fileName, ref T data) where T : new() {
-        var filePath = $"{Settings.Config.PluginFolderPath}\\{fileName}.json";
+        var filePath = $"{Utils.Settings.Config.PluginFolderPath}\\{fileName}.json";
         if (!File.Exists(filePath)) {
             FileStream stream = File.Create(filePath);
             stream.Dispose();
@@ -77,4 +77,4 @@ public static class DB {
             Log.Trace($"{fileName} DB Created");
         }
     }
-};
+}

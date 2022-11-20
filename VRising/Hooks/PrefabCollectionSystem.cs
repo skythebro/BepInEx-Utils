@@ -1,7 +1,7 @@
 using ProjectM;
 using Entities;
 
-namespace Hooks;
+namespace Utils.VRising.Hooks;
 
 public static class PrefabCollectionSystem {
     public static string GetPrefabName(PrefabGUID hashCode) {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Logger;
+namespace Utils.Logger;
 
 public class Log {
     private static ConcurrentDictionary<string, long> timedLog = new ConcurrentDictionary<string, long>();
