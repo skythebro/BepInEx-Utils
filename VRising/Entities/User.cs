@@ -1,5 +1,5 @@
-using Unity.Entities;
 using Unity.Collections;
+using Unity.Entities;
 
 namespace Utils.VRising.Entities;
 
