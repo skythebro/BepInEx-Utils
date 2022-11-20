@@ -1,5 +1,6 @@
 using ProjectM;
-using Entities;
+
+using Utils.VRising.Entities;
 
 namespace Utils.VRising.Hooks;
 

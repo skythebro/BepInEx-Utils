@@ -4,6 +4,7 @@ using Unity.Collections;
 namespace Utils.VRising.Entities;
 
 public static class User {
+    // Get the entities of component type User.
     public static NativeArray<Entity> Get(EntityManager em) {
         var query = em.CreateEntityQuery(
             ComponentType.ReadOnly<ProjectM.Network.User>()

@@ -18,10 +18,12 @@ public static class DB {
 
     private static Action[] loadActions;
     private static Action[] saveActions;
+    private static Action[] cleanActions;
 
-    public static void Config(Action[] load, Action[] save) {
+    public static void Config(Action[] load, Action[] save, Action[] clean = null) {
         loadActions = load;
         saveActions = save;
+        cleanActions = clean;
 
         if (loadActions == null || saveActions == null) {
             Log.Warning($"Null nubmer of save/load actions");
@@ -33,6 +35,7 @@ public static class DB {
         }
     }
 
+    // Load all database actions.
     public static void Load() {
         if (loadActions == null) {
             Log.Error("Error loading database, null actions.");
@@ -42,9 +45,10 @@ public static class DB {
             action();
         }
 
-        Log.Info($"All [{loadActions.Length}]database is now loaded.");
+        Log.Info($"All({loadActions.Length}) database actions loaded.");
     }
 
+    // Save all database actions.
     public static void Save() {
         if (saveActions == null) {
             Log.Error("Error saving database, null actions.");
@@ -54,15 +58,29 @@ public static class DB {
             action();
         }
 
-        Log.Info($"All [{saveActions.Length}]database saved to JSON files.");
+        Log.Info($"All({saveActions.Length}) database actions saved.");
     }
 
-    internal static void save<T>(string fileName, T data, JsonSerializerOptions jsonOptions) {
+    // Clean all database actions.
+    public static void Clean() {
+        if (cleanActions == null) {
+            Log.Error("Error garbage collect database, null actions.");
+            return;
+        }
+
+        foreach (var action in cleanActions) {
+            action();
+        }
+
+        Log.Info($"All({cleanActions.Length}) database actions cleaned.");
+    }
+
+    public static void save<T>(string fileName, T data, JsonSerializerOptions jsonOptions) {
         var filePath = $"{Utils.Settings.Config.PluginFolderPath}\\{fileName}.json";
         File.WriteAllText(filePath, JsonSerializer.Serialize(data, jsonOptions));
     }
 
-    internal static void load<T>(string fileName, ref T data) where T : new() {
+    public static void load<T>(string fileName, ref T data) where T : new() {
         var filePath = $"{Utils.Settings.Config.PluginFolderPath}\\{fileName}.json";
         if (!File.Exists(filePath)) {
             FileStream stream = File.Create(filePath);

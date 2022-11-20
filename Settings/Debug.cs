@@ -2,7 +2,6 @@ using System.Reflection;
 
 using BepInEx.Configuration;
 
-
 namespace Utils.Settings;
 
 public class Debug {

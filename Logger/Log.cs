@@ -53,7 +53,7 @@ public class Log {
 
     // Trace logs
     public static void Trace(object data) {
-        if (Config.traceLevel) {
+        if (Utils.Settings.Debug.EnableTraceLogs) {
             Config.logger.LogDebug(data);
             Config.logFile(data, "Trace:  ");
         }
@@ -61,7 +61,7 @@ public class Log {
 
     // Struct logs
     public static void Struct<T>(T data) {
-        if (Config.traceLevel) {
+        if (Utils.Settings.Debug.EnableTraceLogs) {
             var msg = structToString(data);
             Config.logger.LogDebug(msg);
             Config.logFile(msg, "Struct: ");
