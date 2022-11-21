@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-
 using BepInEx.Logging;
 
 namespace Utils.Logger;

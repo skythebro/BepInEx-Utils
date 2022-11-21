@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-
 using ProjectM;
-
 using Unity.Collections;
 using Unity.Entities;
-
 using Utils.Logger;
 
 namespace Utils.VRising.Logger;
@@ -59,6 +56,10 @@ public static class PrettyLog {
         var properties = type.GetProperties();
 
         var values = new Dictionary<string, object>();
+        Array.ForEach(properties, (property) => {
+            var value = getValue(property.GetValue(data));
+            values.TryAdd(property.Name, value);
+        });
         Array.ForEach(fields, (field) => {
             var value = getValue(field.GetValue(data));
             values.TryAdd(field.Name, value);

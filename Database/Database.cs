@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Text.Json;
-
 using Utils.Logger;
 
 namespace Utils.Database;

@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-
 using Unity.Collections;
 using Unity.Entities;
-
 using Utils.VRising.Hooks;
 
 namespace Utils.VRising.Entities;

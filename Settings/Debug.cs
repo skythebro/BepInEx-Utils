@@ -1,5 +1,4 @@
 using System.Reflection;
-
 using BepInEx.Configuration;
 
 namespace Utils.Settings;
