@@ -94,7 +94,7 @@ public class Log {
             return true;
         }
 
-        if (currentTimestamp > timestamp) {
+        if (currentTimestamp < timestamp) {
             return true;
         }
 
@@ -108,6 +108,9 @@ public class Log {
         var properties = type.GetProperties();
 
         var values = new Dictionary<string, object>();
+        Array.ForEach(properties, (property) => {
+            values.TryAdd(property.Name, property.GetValue(data));
+        });
         Array.ForEach(fields, (field) => {
             values.TryAdd(field.Name, field.GetValue(data));
         });

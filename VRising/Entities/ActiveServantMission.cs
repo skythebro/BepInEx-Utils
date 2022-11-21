@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 using Unity.Collections;
 using Unity.Entities;
@@ -53,23 +54,33 @@ public static class ActiveServantMission {
     }
 
     public static string GetMissionUID(ProjectM.ActiveServantMission mission) {
-        return $"{mission.MissiontDataId}-{GetMissionName(mission)}";
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(
+            $"{GetMissiontDataId(mission)}-{GetMissionStartTime(mission)}-{GetMissionName(mission)}"
+        );
+        return System.Convert.ToBase64String(plainTextBytes);
     }
 
     public static string GetMissionName(ProjectM.ActiveServantMission mission) {
         return PrefabCollectionSystem.GetPrefabName(mission.MissionID);
     }
 
-    // MissionLegth
     public static float GetMissionLength(ProjectM.ActiveServantMission mission) {
         return mission.MissionLength;
     }
 
     public static long GetMissionLengthTimestamp(ProjectM.ActiveServantMission mission) {
-        return DateTimeOffset.Now.AddSeconds(GetMissionLength(mission)).ToUnixTimeMilliseconds();
+        return DateTimeOffset.Now.AddSeconds(GetMissionLength(mission)).ToUnixTimeSeconds();
     }
 
     public static void SetMissionLength(ref ProjectM.ActiveServantMission mission, float seconds) {
         mission.MissionLength = seconds;
+    }
+
+    public static double GetMissionStartTime(ProjectM.ActiveServantMission mission) {
+        return mission.MissionStartTime;
+    }
+
+    public static int GetMissiontDataId(ProjectM.ActiveServantMission mission) {
+        return mission.MissiontDataId;
     }
 }
