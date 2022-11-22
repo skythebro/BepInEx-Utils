@@ -1,24 +1,29 @@
 namespace Utils.VRising.Entities;
 
-public static class World {
-    private static Unity.Entities.World _serverWorld;
-    public static Unity.Entities.World Server {
-        get {
-            if (_serverWorld != null) return _serverWorld;
+public static class World
+{
+    internal static Unity.Entities.World _world;
+    internal static Unity.Entities.EntityManager em = world.EntityManager;
+    public static Unity.Entities.World world
+    {
+        get
+        {
+            if (_world != null) return _world;
 
-            _serverWorld = getWorld("Server")
-                ?? throw new System.Exception("There is no Server world (yet). Did you install a server mod on the client?");
-            return _serverWorld;
+            foreach (var world in Unity.Entities.World.s_AllWorlds)
+            {
+                if (world.Name == "Server" || world.Name == "Client")
+                {
+                    _world = world;
+                }
+            }
+
+            return _world;
         }
     }
 
-    private static Unity.Entities.World getWorld(string name) {
-        foreach (var world in Unity.Entities.World.s_AllWorlds) {
-            if (world.Name == name) {
-                return world;
-            }
-        }
-
-        return null;
+    public static void Set(Unity.Entities.World world)
+    {
+        _world = world;
     }
 }
