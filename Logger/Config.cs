@@ -9,19 +9,19 @@ public class Config {
     private static string tempLogFile;
 
 
-    // Load the logs start configs.
-    public static void Load(ManualLogSource logger, string worldType) {
+    // Setup the logs start configs.
+    public static void Setup(ManualLogSource logger, string worldType) {
         Config.logger = logger;
 
-        tempLogFile = $"{Utils.Settings.Config.PluginFolderPath}\\{Utils.Settings.Config.PluginGUID}-{worldType}.txt";
+        tempLogFile = $"{Settings.Config.PluginFolderPath}\\{Settings.Config.PluginGUID}-{worldType}.txt";
 
         Log.Start($"Using \"{tempLogFile}\" to save logs.");
     }
 
     internal static void logFile(object data, string level, string prefix = "") {
-        if (Utils.Settings.Debug.LogOnTempFile) {
+        if (Settings.ENV.LogOnTempFile) {
             using (StreamWriter w = File.AppendText(tempLogFile)) {
-                var msg = $"{prefix}{DateTime.Now.ToString("hh:mm:ss")} [{level} {Utils.Settings.Config.PluginGUID}]: {data}";
+                var msg = $"{prefix}{DateTime.Now.ToString("hh:mm:ss")} [{level} {Settings.Config.PluginGUID}]: {data}";
                 w.WriteLine(msg);
             }
         }

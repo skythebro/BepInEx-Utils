@@ -8,7 +8,6 @@ public class Log {
     private static ConcurrentDictionary<string, long> timedLog = new ConcurrentDictionary<string, long>();
     private static List<string> firstLog = new List<string>();
 
-
     // Info logs
     public static void Info(object data) {
         Config.logger.LogInfo(data);
@@ -53,7 +52,7 @@ public class Log {
 
     // Trace logs
     public static void Trace(object data) {
-        if (Utils.Settings.Debug.EnableTraceLogs) {
+        if (Settings.ENV.EnableTraceLogs) {
             Config.logger.LogDebug(data);
             Config.logFile(data, "Trace:  ");
         }
@@ -61,7 +60,7 @@ public class Log {
 
     // Struct logs
     public static void Struct<T>(T data) {
-        if (Utils.Settings.Debug.EnableTraceLogs) {
+        if (Settings.ENV.EnableTraceLogs) {
             var msg = structToString(data);
             Config.logger.LogDebug(msg);
             Config.logFile(msg, "Struct: ");
@@ -78,6 +77,28 @@ public class Log {
     public static void First(Action action, string id = "") {
         if (!first(id)) return;
         action();
+    }
+
+    // Helpers
+
+    private static string structToString<T>(T data) {
+        var type = data.GetType();
+        var fields = type.GetFields();
+        var properties = type.GetProperties();
+
+        var values = new Dictionary<string, object>();
+        Array.ForEach(properties, (property) => {
+            values.TryAdd(property.Name, property.GetValue(data));
+        });
+        Array.ForEach(fields, (field) => {
+            values.TryAdd(field.Name, field.GetValue(data));
+        });
+        var lines = new List<string>();
+        foreach (var value in values) {
+            lines.Add($"\"{value.Key}\":\"{value.Value}\"");
+        }
+
+        return $"\"{type.ToString()}\": " + "{" + String.Join(",", lines) + "}";
     }
 
     private static bool first(string id) {
@@ -100,25 +121,5 @@ public class Log {
 
         timedLog.TryRemove(id, out _);
         return false;
-    }
-
-    private static string structToString<T>(T data) {
-        var type = data.GetType();
-        var fields = type.GetFields();
-        var properties = type.GetProperties();
-
-        var values = new Dictionary<string, object>();
-        Array.ForEach(properties, (property) => {
-            values.TryAdd(property.Name, property.GetValue(data));
-        });
-        Array.ForEach(fields, (field) => {
-            values.TryAdd(field.Name, field.GetValue(data));
-        });
-        var lines = new List<string>();
-        foreach (var value in values) {
-            lines.Add($"\"{value.Key}\":\"{value.Value}\"");
-        }
-
-        return $"\"{type.ToString()}\": " + "{" + String.Join(",", lines) + "}";
     }
 }

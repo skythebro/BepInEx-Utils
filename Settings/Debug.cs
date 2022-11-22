@@ -3,49 +3,58 @@ using BepInEx.Configuration;
 
 namespace Utils.Settings;
 
-public class Debug {
-    private static string debugSection = "🪲Debug";
-    public static ConfigEntry<bool> DebugLogOnTempFile;
+public static class ENV {
     public static bool LogOnTempFile = false;
-    public static ConfigEntry<bool> DebugEnableTraceLogs;
     public static bool EnableTraceLogs = false;
 
-    // Load the plugin debug variables.
-    public static void load() {
-        if (enableDebugConfigs()) {
-            DebugLogOnTempFile = Config.cfg.Bind(
-                debugSection,
-                "LogOnTempFile",
-                false,
-                "Enabled, will log every plugin log on a temp file"
-            );
+    public class Debug {
+        private static string debugSection = "🪲Debug";
+        private static ConfigEntry<bool> DebugLogOnTempFile;
+        private static ConfigEntry<bool> DebugEnableTraceLogs;
 
-            DebugEnableTraceLogs = Config.cfg.Bind(
-                debugSection,
-                "EnableTraceLogs",
-                false,
-                "Enabled, will print Trace logs (Debug output in BepInEx)"
+        public static void Setup() {
+            Config.AddConfigActions(
+                () => load()
             );
         }
 
-        validateValues();
-    }
+        // Load the plugin debug variables.
+        private static void load() {
+            if (enableDebugConfigs()) {
+                DebugLogOnTempFile = Config.cfg.Bind(
+                    debugSection,
+                    "LogOnTempFile",
+                    false,
+                    "Enabled, will log every plugin log on a temp file"
+                );
 
-    private static void validateValues() {
-        if (DebugLogOnTempFile != null) {
-            LogOnTempFile = DebugLogOnTempFile.Value;
+                DebugEnableTraceLogs = Config.cfg.Bind(
+                    debugSection,
+                    "EnableTraceLogs",
+                    false,
+                    "Enabled, will print Trace logs (Debug output in BepInEx)"
+                );
+            }
+
+            validateValues();
         }
 
-        if (DebugEnableTraceLogs != null) {
-            EnableTraceLogs = DebugEnableTraceLogs.Value;
+        private static void validateValues() {
+            if (DebugLogOnTempFile != null) {
+                LogOnTempFile = DebugLogOnTempFile.Value;
+            }
+
+            if (DebugEnableTraceLogs != null) {
+                EnableTraceLogs = DebugEnableTraceLogs.Value;
+            }
+
+            Config.cfg.Save();
         }
 
-        Config.cfg.Save();
-    }
-
-    private static bool enableDebugConfigs() {
-        var assemblyConfigurationAttribute = typeof(Debug).Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>();
-        var buildConfigurationName = assemblyConfigurationAttribute?.Configuration;
-        return buildConfigurationName != "Release";
+        private static bool enableDebugConfigs() {
+            var assemblyConfigurationAttribute = typeof(Debug).Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>();
+            var buildConfigurationName = assemblyConfigurationAttribute?.Configuration;
+            return buildConfigurationName != "Release";
+        }
     }
 }

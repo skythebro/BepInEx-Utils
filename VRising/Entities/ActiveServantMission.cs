@@ -1,8 +1,10 @@
 using System;
+
 using System.Collections.Generic;
+
 using Unity.Collections;
+
 using Unity.Entities;
-using Utils.VRising.Hooks;
 
 namespace Utils.VRising.Entities;
 
@@ -58,7 +60,7 @@ public static class ActiveServantMission {
     }
 
     public static string GetMissionName(ProjectM.ActiveServantMission mission) {
-        return PrefabCollectionSystem.GetPrefabName(mission.MissionID);
+        return Hooks.PrefabCollectionSystem.GetPrefabName(mission.MissionID);
     }
 
     public static float GetMissionLength(ProjectM.ActiveServantMission mission) {

@@ -11,7 +11,7 @@ namespace Utils.VRising.Logger;
 public static class PrettyLog {
     // NativeArray logs
     public static void NativeArray<T>(NativeArray<T> data, string prefix = "") where T : new() {
-        if (Utils.Settings.Debug.EnableTraceLogs) {
+        if (Settings.ENV.EnableTraceLogs) {
             var lines = new List<string>();
             foreach (var d in data) {
                 lines.Add($"\"{d}\"");
@@ -31,7 +31,7 @@ public static class PrettyLog {
 
     // Struct logs
     public static void Struct<T>(T data) {
-        if (Utils.Settings.Debug.EnableTraceLogs) {
+        if (Settings.ENV.EnableTraceLogs) {
             var msg = structToString(data);
             Config.logger.LogDebug(msg);
             Config.logFile(msg, "Struct: ");
