@@ -1,11 +1,13 @@
+using Stunlock.Core;
+
 namespace Utils.VRising.Systems;
 
 public static class PrefabCollectionSystem {
     public static ProjectM.PrefabCollectionSystem Get() {
-        return Entities.World.world.GetExistingSystem<ProjectM.PrefabCollectionSystem>();
+        return Entities.World.world.GetExistingSystemManaged<ProjectM.PrefabCollectionSystem>();
     }
 
-    public static string GetPrefabName(ProjectM.PrefabGUID hashCode) {
+    public static string GetPrefabName(PrefabGUID hashCode) {
         var pcs = Get();
         string name = "Nonexistent";
         if (hashCode.GuidHash == 0) {

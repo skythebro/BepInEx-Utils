@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using Unity.Collections;
 using ProjectM;
 using System.Text.RegularExpressions;
+using Stunlock.Core;
 using Unity.Entities;
 
 namespace Utils.VRising.Logger;
 
 public static class PrettyLog {
     // NativeArray logs
-    public static void NativeArray<T>(NativeArray<T> data, string prefix = "") where T : new() {
+    public static void NativeArray<T>(NativeArray<T> data, string prefix = "") where T : unmanaged {
         if (Settings.ENV.EnableTraceLogs) {
             var lines = new List<string>();
             foreach (var d in data) {
